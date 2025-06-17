@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>비타민 C + 포비돈 요오드 반응 시뮬레이션</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            padding-top: 50px;
+        }
+        .beaker {
+            display: inline-block;
+            width: 200px;
+            height: 300px;
+            background-color: #a0522d;
+            border: 5px solid #555;
+            border-radius: 10px 10px 0 0;
+            transition: background-color 3s ease;
+            position: relative;
+        }
+        .button {
+            margin: 10px;
+            padding: 10px 16px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reaction-text {
+            margin-top: 25px;
+            font-size: 17px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>🧪 비타민 C + 포비돈 요오드 반응 시뮬레이션</h2>
+    <div class="beaker" id="beaker"></div>
+    <br>
+    <button class="button" onclick="addVitamin('powder')">비타민 C (가루) 추가</button>
+    <button class="button" onclick="addVitamin('liquid')">비타민 C (액체) 추가</button>
+    <button class="button" onclick="resetBeaker()">다시하기</button>
+    <div class="reaction-text" id="reactionText">
+        요오드(I₂)가 아스코르빈산(C₆H₈O₆)에 의해 환원되어<br>
+        요오드화 이온(I⁻)으로 바뀌면서 색이 사라집니다.<br><br>
+        <strong>반응식:</strong><br>
+        I₂ + C₆H₈O₆ → 2 I⁻ + C₆H₆O₆ + 2 H⁺
+    </div>
+    <script>
+        const beaker = document.getElementById('beaker');
+        const reactionText = document.getElementById('reactionText');
+        let currentTimeout = null;
+
+        function addVitamin(type) {
+            resetTimer();
+            if (type === 'powder') {
+                gradualColorChange(['#a0522d', '#b0703e', '#c09050', '#d0b070', '#e0d0a0', '#f0f8ff']);
+            } else if (type === 'liquid') {
+                gradualColorChange(['#a0522d', '#b05f3f', '#c07f5f', '#d09f7f', '#e0bf9f', '#f0f8ff']);
+            }
+            reactionText.style.display = 'block';
+        }
+
+        function gradualColorChange(colors) {
+            let index = 0;
+            currentTimeout = setInterval(() => {
+                if (index < colors.length) {
+                    beaker.style.backgroundColor = colors[index];
+                    index++;
+                } else {
+                    clearInterval(currentTimeout);
+                }
+            }, 500);
+        }
+
+        function resetTimer() {
+            if (currentTimeout) {
+                clearInterval(currentTimeout);
+                currentTimeout = null;
+            }
+        }
+
+        function resetBeaker() {
+            resetTimer();
+            beaker.style.backgroundColor = '#a0522d';
+            reactionText.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
